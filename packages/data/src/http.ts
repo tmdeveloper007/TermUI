@@ -19,6 +19,20 @@ const _latencyHistory = new Map<string, number[]>();
 const MAX_HISTORY = 100;
 const MAX_URLS = 100;
 
+/**
+ * Combine multiple AbortSignals into one. The returned signal is aborted
+ * when any of the input signals is aborted. Available in Node 20+ as
+ * AbortSignal.any(); this polyfill enables Node 18 compatibility.
+ */
+function anySignal(signals: AbortSignal[]): AbortSignal {
+    const controller = new AbortController();
+    for (const s of signals) {
+        if (s.aborted) { controller.abort(s.abortReason); break; }
+        s.addEventListener('abort', () => controller.abort(s.abortReason), { once: true });
+    }
+    return controller.signal;
+}
+
 /** HTTP data provider — uses native fetch (Node 18+) */
 export const http = {
     /**
@@ -29,10 +43,12 @@ export const http = {
         const start = Date.now();
         try {
             // Combine the caller's signal with a 5-second timeout signal so
-            // either source can abort the request.
+            // either source can abort the request.  AbortSignal.timeout is
+            // available in Node 18+; AbortSignal.any is Node 20+ so the
+            // anySignal polyfill above is used instead.
             const timeoutSignal = AbortSignal.timeout(5000);
             const combinedSignal = signal
-                ? AbortSignal.any([signal, timeoutSignal])
+                ? anySignal([signal, timeoutSignal])
                 : timeoutSignal;
             const res = await fetch(url, {
                 method: 'GET',
