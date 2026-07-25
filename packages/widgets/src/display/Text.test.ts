@@ -44,11 +44,13 @@ describe('Text', () => {
     });
 
     it('handles horizontal scroll with wide characters at partial offset', () => {
-        // Test scrollX landing in the middle of a wide character
-        const { screen } = renderText('中a', {}, { scrollX: 1, wrap: false }, 10, 5);
-        // When scrollX=1 lands in the middle of '中' (2 columns), should show space + 'a'
-        expect(screen.back[0][0].char).toBe(' ');
-        expect(screen.back[0][1].char).toBe('a');
+        // Test scrollX=1: skip 1 visual column → 'Y' starts at col 0
+        const { screen } = renderText('XYZ中a', {}, { scrollX: 1, wrap: false }, 10, 5);
+        // When scrollX=1: 'Y' at col 0, 'Z' at col 1, '中' at col 2, 'a' at col 4
+        expect(screen.back[0][0].char).toBe('Y');
+        expect(screen.back[0][1].char).toBe('Z');
+        expect(screen.back[0][2].char).toBe('中');
+        expect(screen.back[0][4].char).toBe('a');
     });
 
     it('handles horizontal scroll with wide characters at full offset', () => {
@@ -59,11 +61,13 @@ describe('Text', () => {
     });
 
     it('handles horizontal scroll with emoji at partial offset', () => {
-        // Test scrollX landing in the middle of an emoji
-        const { screen } = renderText('😀a', {}, { scrollX: 1, wrap: false }, 10, 5);
-        // When scrollX=1 lands in the middle of '😀' (2 columns), should show space + 'a'
-        expect(screen.back[0][0].char).toBe(' ');
-        expect(screen.back[0][1].char).toBe('a');
+        // Test scrollX=1: skip 1 visual column → 'Y' starts at col 0
+        const { screen } = renderText('XYZ😀a', {}, { scrollX: 1, wrap: false }, 10, 5);
+        // When scrollX=1: 'Y' at col 0, 'Z' at col 1, '😀' at col 2, 'a' at col 4
+        expect(screen.back[0][0].char).toBe('Y');
+        expect(screen.back[0][1].char).toBe('Z');
+        expect(screen.back[0][2].char).toBe('😀');
+        expect(screen.back[0][4].char).toBe('a');
     });
 });
 

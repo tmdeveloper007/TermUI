@@ -50,14 +50,12 @@ export class Collapsible extends Widget {
         style: Partial<Style> = {},
         opts: CollapsibleOptions = {},
     ) {
-        const open = opts.open ?? false;
         const bodyLines = opts.open ? body.split('\n').length : 0;
         super({ ...style, height: 1 + bodyLines });
-        this._open = open;
+        this._open = opts.open ?? false;
 
         this._title = title;
         this._body = body;
-        this._open = opts.open ?? false;
         this._expandChar = opts.expandChar ?? (caps.unicode ? '▶' : '>');
         this._collapseChar = opts.collapseChar ?? (caps.unicode ? '▼' : 'v');
         this._onToggle = opts.onToggle;

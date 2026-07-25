@@ -76,7 +76,7 @@ export class Clock extends Widget {
 
         // If in 12h mode, render AM/PM text separately
         if (this._ampm) {
-            const digitsWidth = this._digitPartLength * 5; // each digit consumes 5 columns
+            const digitsWidth = this._digitPartLength * 4; // each digit consumes 4 columns (DIGIT_WIDTH=4 in Digits)
 
             if (digitsWidth + this._ampm.length <= width && height >= 3) {
                 const attrs = styleToCellAttrs(this._style);

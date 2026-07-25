@@ -60,8 +60,8 @@ describe('Clock', () => {
         // Assert that the 'PM' label is rendered on the screen (row 2)
         expect(rows[2]).toContain('PM');
 
-        // 2:30:45 has length 7. PM should start exactly at index 35.
-        expect(rows[2].slice(35, 37)).toBe('PM');
+        // 2:30:45 has length 7. PM should start exactly at index 28.
+        expect(rows[2].slice(28, 30)).toBe('PM');
     });
 
     it('use24Hour:false converts 09:15:30 to 9:15:30 AM', () => {
@@ -77,8 +77,8 @@ describe('Clock', () => {
         // Assert that the 'AM' label is rendered on the screen (row 2)
         expect(rows[2]).toContain('AM');
 
-        // 9:15:30 has length 7. AM should start exactly at index 35.
-        expect(rows[2].slice(35, 37)).toBe('AM');
+        // 9:15:30 has length 7. AM should start exactly at index 28.
+        expect(rows[2].slice(28, 30)).toBe('AM');
     });
 
     it('use24Hour:false converts 00:05:10 to 12:05:10 AM', () => {
@@ -91,8 +91,8 @@ describe('Clock', () => {
 
         const rows = screen.back.map(row => row.map(cell => cell.char).join(''));
         expect(rows[2]).toContain('AM');
-        // 12:05:10 has length 8. AM should start exactly at index 40.
-        expect(rows[2].slice(40, 42)).toBe('AM');
+        // 12:05:10 has length 8. AM should start exactly at index 32.
+        expect(rows[2].slice(32, 34)).toBe('AM');
     });
 
     it('use24Hour:false converts 12:05:10 to 12:05:10 PM', () => {
@@ -105,8 +105,8 @@ describe('Clock', () => {
 
         const rows = screen.back.map(row => row.map(cell => cell.char).join(''));
         expect(rows[2]).toContain('PM');
-        // 12:05:10 has length 8. PM should start exactly at index 40.
-        expect(rows[2].slice(40, 42)).toBe('PM');
+        // 12:05:10 has length 8. PM should start exactly at index 32.
+        expect(rows[2].slice(32, 34)).toBe('PM');
     });
 
     it('setTime triggers markDirty()', () => {

@@ -129,7 +129,7 @@ export class Text extends Widget {
                             const visibleColumns = this._scrollX - skipped;
                             const remainingColumns = charWidth - visibleColumns;
                             // Add placeholders for the visible columns that were skipped
-                            line = ' '.repeat(visibleColumns) + line.slice(charIndex + ch.length);
+                            line = ' '.repeat(visibleColumns) + line.slice(charIndex);
                             lineRebuilt = true;
                         }
                         break;

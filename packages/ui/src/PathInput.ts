@@ -64,6 +64,7 @@ export class PathInput extends Widget {
         this._value = splitGraphemes(v).slice(0, this._maxLength).join('');
         this._cursorPos = Math.min(this._cursorPos, this._graphemes().length);
         this._dismissCompletions();
+        this.markDirty();
     }
 
     get completions(): string[] { return this._completions; }
