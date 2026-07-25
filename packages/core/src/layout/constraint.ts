@@ -93,11 +93,16 @@ export function resolveConstraints(
     }
 
     // 2. Resolve Min/Max
-    // For Min, we must reserve at least that much space
+    // For Min, we must reserve at least that much space.
+    // Do NOT add to totalFixed if the constraint is also a FillConstraint,
+    // because Fill participates in the remaining-space distribution and
+    // adding it to totalFixed would double-count its minimum.
     for (let i = 0; i < n; i++) {
         if (constraints[i] instanceof MinConstraint) {
             sizes[i] = minSizes[i];
-            totalFixed += sizes[i];
+            if (!(constraints[i] instanceof FillConstraint)) {
+                totalFixed += sizes[i];
+            }
         }
     }
 
