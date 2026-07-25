@@ -49,7 +49,7 @@ export class ProgressCircle extends Widget {
             if (this._value === nextValue) {
             return;
         }
-        this._value = clamp01(value);
+        this._value = nextValue;
         this.markDirty();
     }
 

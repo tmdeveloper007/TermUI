@@ -17,6 +17,7 @@ export function useThrottle<T>(value: T, intervalMs: number): T {
     const intervalRef = useRef(intervalMs);
     latestValueRef.current = value;
     const runTimeout = () => {
+        const currentInterval = intervalRef.current;
         timeoutRef.current = setTimeout(() => {
             if (latestValueRef.current !== lastEmittedValueRef.current) {
                 lastEmittedValueRef.current = latestValueRef.current;
@@ -25,7 +26,7 @@ export function useThrottle<T>(value: T, intervalMs: number): T {
             } else {
                 timeoutRef.current = null;
             }
-        }, intervalMs);
+        }, currentInterval);
     };
     // Effect to handle value updates and start throttle timer
     useEffect(() => {
