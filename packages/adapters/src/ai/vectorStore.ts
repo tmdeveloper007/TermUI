@@ -45,11 +45,12 @@ export function chunkText(text: string, size = 500, overlap = 50): string[] {
     let start = 0;
     while (start < text.length) {
         const end = Math.min(start + size, text.length);
-        chunks.push(text.slice(start, end));
-        start += (size - overlap);
-        if (start >= text.length - overlap && end === text.length) {
+        if (end - overlap < start) {
+            chunks.push(text.slice(start));
             break;
         }
+        chunks.push(text.slice(start, end));
+        start += (size - overlap);
     }
     return chunks;
 }
