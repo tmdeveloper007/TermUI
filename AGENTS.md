@@ -142,3 +142,5 @@ Do not write `caps.unicode = false`. It mutates shared state and leaks across te
 ## GSSoC note
 
 This repo runs in GSSoC 2026. PRs need a linked issue, passing checks, and a starred repo. Labels (`gssoc:approved`, `level:*`, `quality:*`) are set by the maintainer after review. Do not add them yourself.
+
+<!-- Mavis-pr-2118 -->
