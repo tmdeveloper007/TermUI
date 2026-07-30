@@ -63,6 +63,7 @@ interface SimpleGitClient {
     modified: string[]
     not_added: string[]
     staged: string[]
+    files: string[]
   }>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   log<T = DefaultLogFields>(options?: any): Promise<LogResult<T>> // any: simple-git options bag type not exported from package
@@ -128,9 +129,13 @@ export function useGit(cwd?: string): GitAdapter {
     async status(): Promise<GitStatusResult> {
       const git = await getSimpleGit(cwd)
       const statusResult = await git.status()
+      // simple-git: 'not_added' = new files in working dir not staged
+      // simple-git: 'files' = truly untracked (not in index, not staged)
+      // 'untracked' in GitStatusResult should include both categories
+      const untracked = [...(statusResult.not_added ?? []), ...(statusResult.files ?? [])]
       return {
         modified: statusResult.modified,
-        untracked: statusResult.not_added,
+        untracked,
         staged: statusResult.staged,
       }
     },
